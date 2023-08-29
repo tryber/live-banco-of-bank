@@ -19,8 +19,12 @@ const loadCustomerList = (customers) => {
   });
 };
 
-const getCreditCardInfo = (credit_card_id) => data.credit_cards.find((card) => card.credit_card_id === credit_card_id);
-const getCustomer = (customer_id) => data.customers.find((customer) => customer.customer_id == customer_id);
+const getCreditCardInfo = (credit_card_id) => data.credit_cards
+  .find((card) => card.credit_card_id === credit_card_id);
+const getCustomer = (customer_id) => data.customers
+  .find((customer) => customer.customer_id == customer_id);
+const getTransactions = (customer_id, months) => data.transactions
+  .filter((transaction) => transaction.customer_id == customer_id && months.includes(transaction.month));
 
 const showCreditCardInfo = (customer_id) => {
   creditCardElement.innerHTML = '';
@@ -36,42 +40,27 @@ const showCreditCardInfo = (customer_id) => {
 
 const filterByMonth = () => [...qsa('input[name="month"]:checked')].map((month) => month.id);
 
-const getCustomerInfo = (arrayColumns, arrayKeys) => {
-  table.innerHTML = '';
-  totalAmount.innerHTML = '';
+const showTransactions = (transactions) => {
+  qs('table tbody').innerHTML = '';
+  transactions.forEach(
+    (transaction) => qs('table tbody')
+      .insertAdjacentHTML(
+        'beforeend',`
+        <td>${transaction.month}</td>
+        <td>${transaction.transaction_id}</td>
+        <td>${transaction.company}</td>
+        <td>R$${transaction.amount.toFixed(2)}</td>`
+      )
+  );
+};
 
-  if (!customerName.value) return;
+const showCustomerInfo = () => {
+  const customer = getCustomer(customerName.value);
+  const transactions = getTransactions(customer.customer_id, filterByMonth());
 
-  arrayColumns.forEach((column) => {
-    const newTh = document.createElement('th');
-    newTh.innerText = column;
-    table.appendChild(newTh);
-  })
+  showTransactions(transactions);
 
-  const findCustomer = data.customers
-    .find((customer) => customer.customer_id == customerName.value);
-  const allTransactions = data.transactions
-    .filter((transactions) => transactions.customer_id === findCustomer.customer_id)
-    .filter(({ month }) => filterByMonth()
-    .includes(month));
-
-  let transactionsAmount = [];
-
-  allTransactions.forEach((transaction) => {
-    const newTr = document.createElement('tr');
-    table.appendChild(newTr);
-    transactionsAmount.push(transaction.amount);
-
-    arrayKeys.forEach((key) => {
-      const newTd = document.createElement('td');
-      newTd.innerText = transaction[key];
-      if (key === 'amount') newTd.innerText = `R$${transaction[key].toFixed(2)}`;
-      newTr.appendChild(newTd);
-    })
-
-  })
-
-  const total = transactionsAmount.reduce((acc, amount) => acc += amount, 0);
+  const total = transactions.reduce((acc, transaction) => acc += transaction.amount, 0);
   totalAmount.innerText = `TOTAL = R$${total.toFixed(2)}`;
 };
 
@@ -121,6 +110,6 @@ window.onload = () => {
   })
 
   sectionFilters.addEventListener('change', () => {
-    getCustomerInfo(['Mês', 'Transação', 'Estabelecimento', 'Valor'], ['month', 'transaction_id', 'company', 'amount']);
+    showCustomerInfo();
   })
 };
