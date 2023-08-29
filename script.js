@@ -65,16 +65,12 @@ const showCustomerInfo = () => {
 };
 
 const getTotalByMonths = () => {
-  const findCustomer = data.customers.find((customer) => customer.customer_id == customerName.value);
-  return arrayAllMonths.map((month) => {
-    const monthTransactions = data.transactions
-      .filter((transaction) => transaction.customer_id === findCustomer.customer_id)
-      .filter((transaction) => transaction.month === month);
-
-    return monthTransactions
-      .map((transaction) => transaction.amount)
-      .reduce((acc, amount) => acc += amount, 0);
-  })
+  const customer = getCustomer(customerName.value);
+  const customerTransactions = data.transactions.filter((transaction) => transaction.customer_id === customer.customer_id);
+  return arrayAllMonths.map((month) => customerTransactions
+      .filter((transaction) => transaction.month === month)
+      .reduce((total, transaction) => total + transaction.amount, 0)
+  );
 };
 
 const chartGenerator = (data) => {
