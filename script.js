@@ -13,57 +13,14 @@ const creditCardDescription = qs('#customerData p');
 
 const arrayAllMonths = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
-const loadCustomerList = (customers) => {
-  customers.forEach((customer) => {
-    const newOption = document.createElement('option');
-    newOption.innerText = customer.name;
-    newOption.value = customer.customer_id;
-    customerName.appendChild(newOption);
-  });
-};
-
 const getCreditCardInfo = (credit_card_id) => data.credit_cards
-  .find((card) => card.credit_card_id === credit_card_id);
+.find((card) => card.credit_card_id === credit_card_id);
 const getCustomer = (customer_id) => data.customers
-  .find((customer) => customer.customer_id == customer_id);
+.find((customer) => customer.customer_id == customer_id);
 const getTransactions = (customer_id, months) => data.transactions
-  .filter((transaction) => transaction.customer_id == customer_id && months.includes(transaction.month));
-
-const showCreditCardInfo = (customer_id) => {
-  const customer = getCustomer(customer_id);
-  const creditCard = getCreditCardInfo(customer.credit_card_id);
-
-  creditCardImage.src = creditCard.image;
-  creditCardDescription.innerText = `Cartão ${creditCard.name} - No: ${customer.credit_card_number}`;
-};
-
-const filterByMonth = () => [...qsa('input[name="month"]:checked')].map((month) => month.id);
-
-const showTransactions = (transactions) => {
-  qs('table tbody').innerHTML = '';
-  transactions.forEach(
-    (transaction) => qs('table tbody')
-      .insertAdjacentHTML(
-        'beforeend',`
-        <td>${transaction.month}</td>
-        <td>${transaction.transaction_id}</td>
-        <td>${transaction.company}</td>
-        <td>R$${transaction.amount.toFixed(2)}</td>`
-      )
-  );
-};
-
-const loadTransactions = () => {
-  if (!customerName.value) return;
-  const customer = getCustomer(customerName.value);
-  const transactions = getTransactions(customer.customer_id, filterByMonth());
-
-  showTransactions(transactions);
-
-  const total = transactions.reduce((acc, transaction) => acc += transaction.amount, 0);
-  totalAmount.innerText = `TOTAL = R$${total.toFixed(2)}`;
-};
-
+.filter((transaction) => transaction.customer_id == customer_id && months.includes(transaction.month));
+const getCheckedMonths = () => [...qsa('input[name="month"]:checked')]
+.map((month) => month.id);
 const getTotalByMonths = () => {
   const customer = getCustomer(customerName.value);
   const customerTransactions = data.transactions.filter((transaction) => transaction.customer_id === customer.customer_id);
@@ -73,7 +30,24 @@ const getTotalByMonths = () => {
   );
 };
 
-const chartGenerator = (data) => {
+const showCustomers = (customers) => {
+  customers.forEach((customer) => {
+    const newOption = document.createElement('option');
+    newOption.innerText = customer.name;
+    newOption.value = customer.customer_id;
+    customerName.appendChild(newOption);
+  });
+};
+
+const showCreditCardInfo = (customer_id) => {
+  const customer = getCustomer(customer_id);
+  const creditCard = getCreditCardInfo(customer.credit_card_id);
+
+  creditCardImage.src = creditCard.image;
+  creditCardDescription.innerText = `Cartão ${creditCard.name} - No: ${customer.credit_card_number}`;
+};
+
+const showChart = (data) => {
   const dataBar = {
     type: 'bar',
     data: {
@@ -97,12 +71,37 @@ const chartGenerator = (data) => {
   new te.Chart(document.getElementById('bar-chart'), dataBar);
 }
 
+const showTransactions = (transactions) => {
+  qs('table tbody').innerHTML = '';
+  transactions.forEach(
+    (transaction) => qs('table tbody')
+      .insertAdjacentHTML(
+        'beforeend',`
+        <td>${transaction.month}</td>
+        <td>${transaction.transaction_id}</td>
+        <td>${transaction.company}</td>
+        <td>R$${transaction.amount.toFixed(2)}</td>`
+      )
+  );
+};
+
+const loadTransactions = () => {
+  if (!customerName.value) return;
+  const customer = getCustomer(customerName.value);
+  const transactions = getTransactions(customer.customer_id, getCheckedMonths());
+
+  showTransactions(transactions);
+
+  const total = transactions.reduce((acc, transaction) => acc += transaction.amount, 0);
+  totalAmount.innerText = `TOTAL = R$${total.toFixed(2)}`;
+};
+
 window.onload = () => {
-  loadCustomerList(data.customers);
+  showCustomers(data.customers);
 
   customerName.addEventListener('change', () => {
     customerData.style.display = 'block';
-    chartGenerator(getTotalByMonths());
+    showChart(getTotalByMonths());
     showCreditCardInfo(customerName.value);
   })
 
