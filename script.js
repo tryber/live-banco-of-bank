@@ -32,7 +32,7 @@ const getCreditCardInfo = () => {
   creditCard.appendChild(description);
 };
 
-const getFilterMonths = () => {
+const filterByMonth = () => {
   const months = document.querySelectorAll('input[name="month"]:checked');
   let monthsArray = [];
   months.forEach((month) => monthsArray.push(month.id));
@@ -43,7 +43,7 @@ const getFilterMonths = () => {
 const setupMonthEvents = () => {
   months.forEach((month) => {
     month.addEventListener('change', () => {
-      getFilterMonths();
+      filterByMonth();
     });
   });
 };
@@ -63,7 +63,7 @@ const getCustomerInfo = (arrayColumns, arrayKeys) => {
       .find((customer) => customer.customer_id == customerName.value);
     const allTransactions = data.transactions
       .filter((transactions) => transactions.customer_id === findCustomer.customer_id)
-      .filter(({ month }) => getFilterMonths()
+      .filter(({ month }) => filterByMonth()
       .includes(month));
 
     let transactionsAmount = [];
