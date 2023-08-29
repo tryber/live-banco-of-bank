@@ -22,10 +22,10 @@ const loadCustomerList = () => {
 const getCreditCardInfo = (credit_card_id) => data.credit_cards.find((card) => card.credit_card_id === credit_card_id);
 const getCustomer = (customer_id) => data.customers.find((customer) => customer.customer_id == customer_id);
 
-const showCreditCardInfo = () => {
+const showCreditCardInfo = (customer_id) => {
   creditCardElement.innerHTML = '';
 
-  const customer = getCustomer(customerName.value);
+  const customer = getCustomer(customer_id);
   const creditCard = getCreditCardInfo(customer.credit_card_id);
 
   creditCardElement.insertAdjacentHTML(
@@ -117,7 +117,7 @@ window.onload = () => {
 
   customerName.addEventListener('change', () => {
     chartGenerator(getTotalByMonths());
-    showCreditCardInfo();
+    showCreditCardInfo(customerName.value);
   })
 
   sectionFilters.addEventListener('change', () => {
