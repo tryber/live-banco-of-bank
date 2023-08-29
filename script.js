@@ -10,8 +10,8 @@ let chart = qs('canvas');
 
 const arrayAllMonths = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
-const loadCustomerList = () => {
-  data.customers.forEach((customer) => {
+const loadCustomerList = (customers) => {
+  customers.forEach((customer) => {
     const newOption = document.createElement('option');
     newOption.innerText = customer.name;
     newOption.value = customer.customer_id;
@@ -113,7 +113,7 @@ const chartGenerator = (data) => {
 }
 
 window.onload = () => {
-  loadCustomerList();
+  loadCustomerList(data.customers);
 
   customerName.addEventListener('change', () => {
     chartGenerator(getTotalByMonths());
