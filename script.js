@@ -14,13 +14,13 @@ const creditCardDescription = qs('#customerData p');
 const arrayAllMonths = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
 const getCreditCardInfo = (credit_card_id) => data.credit_cards
-.find((card) => card.credit_card_id === credit_card_id);
+  .find((card) => card.credit_card_id === credit_card_id);
 const getCustomer = (customer_id) => data.customers
-.find((customer) => customer.customer_id == customer_id);
+  .find((customer) => customer.customer_id == customer_id);
 const getTransactions = (customer_id, months) => data.transactions
-.filter((transaction) => transaction.customer_id == customer_id && months.includes(transaction.month));
+  .filter((transaction) => transaction.customer_id == customer_id && months.includes(transaction.month));
 const getCheckedMonths = () => [...qsa('input[name="month"]:checked')]
-.map((month) => month.id);
+  .map((month) => month.id);
 const getTotalByMonths = () => {
   const customer = getCustomer(customerName.value);
   const customerTransactions = data.transactions.filter((transaction) => transaction.customer_id === customer.customer_id);
