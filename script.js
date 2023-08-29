@@ -8,13 +8,13 @@ let chart = document.querySelector('canvas');
 
 const arrayAllMonths = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
-const createSelectName = () => {
+const loadCustomerList = () => {
   data.customers.forEach((customer) => {
     const newOption = document.createElement('option');
     newOption.innerText = customer.name;
     newOption.value = customer.customer_id;
     customerName.appendChild(newOption);
-  })
+  });
 };
 
 const getCreditCardInfo = () => {
@@ -125,7 +125,7 @@ const chartGenerator = (data) => {
 }
 
 window.onload = () => {
-  createSelectName();
+  loadCustomerList();
   verifyMonthsCheck();
   
   customerName.addEventListener('change', () => {
