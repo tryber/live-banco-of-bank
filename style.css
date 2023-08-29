@@ -1,0 +1,68 @@
+body {
+  width: 80%;
+  margin: auto;
+}
+
+header {
+  margin: auto;
+  background-color: darkgreen;
+  text-align: center;
+  color: white;
+  padding: 20px 0;
+}
+
+canvas[style] {
+  width: 500px !important;
+}
+
+table {
+  margin: auto;
+  margin-top: 20px;
+}
+
+td {
+  padding: 5px;
+}
+
+select {
+  filter: drop-shadow(0px 10px 10px rgb(194, 194, 194));
+  border-radius: 5px;
+}
+
+th {
+  background-color: darkgreen;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: rgb(216, 216, 216);
+}
+
+#total-amount {
+  text-align: center;
+  font-size: x-large;
+  font-weight: 900;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.months input {
+  margin-left: 10px;
+} 
+
+.dashboard {
+  display: flex;
+}
+
+#credit-card-info {
+  text-align: center;
+}
+
+#credit-card-info > img {
+  width: 50%;
+  margin: auto;
+}
