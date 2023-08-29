@@ -860,6 +860,15 @@ const data = {
       "monthly_income": 3100,
       "credit_card_id": 4,
       "credit_card_number": "3728 9640 5187 3096"
+    },
+    {
+      "customer_id": 915454,
+      "name": "Rodrigo Góes",
+      "email": "goes@fakenatty.com",
+      "age": 89,
+      "monthly_income": 3100,
+      "credit_card_id": 4,
+      "credit_card_number": "3728 9640 5187 3098"
     }
   ],
 

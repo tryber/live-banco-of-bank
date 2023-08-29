@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+  rel="stylesheet" />
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
+  <link rel="stylesheet" href="style.css">
+  <title>Transações Bancárias - Trybe</title>
+</head>
+<body>
+
+  <header>🏦 <em>Banco of Bank</em> 🏦</header>
+
+  <section class="filters">
+    <select name="" id="customer-name">
+      <option value="">Selecione a pessoa ...</option>
+    </select>
+
+    <div class="months">
+      <input type="checkbox" name="month" id="Janeiro">
+      <label for="Janeiro">Janeiro</label>
+      <input type="checkbox" name="month" id="Fevereiro">
+      <label for="Fevereiro">Fevereiro</label>
+      <input type="checkbox" name="month" id="Março">
+      <label for="Março">Março</label>
+      <input type="checkbox" name="month" id="Abril">
+      <label for="Abril">Abril</label>
+      <input type="checkbox" name="month" id="Maio">
+      <label for="Maio">Maio</label>
+      <input type="checkbox" name="month" id="Junho">
+      <label for="Junho">Junho</label>
+      <input type="checkbox" name="month" id="Julho">
+      <label for="Julho">Julho</label>
+      <input type="checkbox" name="month" id="Agosto">
+      <label for="Agosto">Agosto</label>
+      <input type="checkbox" name="month" id="Setembro">
+      <label for="Setembro">Setembro</label>
+      <input type="checkbox" name="month" id="Outubro">
+      <label for="Outubro">Outubro</label>
+      <input type="checkbox" name="month" id="Novembro">
+      <label for="Novembro">Novembro</label>
+      <input type="checkbox" name="month" id="Dezembro">
+      <label for="Dezembro">Dezembro</label>
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="dashboard">
+    <div class="table-content">
+      <div id="credit-card-info">
+
+      </div>
+
+      <div class="transactions">  
+        <table id="transactions-table"></table>
+        <p id="total-amount"></p>
+      </div>
+
+    </div>
+
+    <div id="credit-chart" class="mx-auto w-3/5 overflow-hidden">
+      <canvas id="bar-chart"></canvas>
+    </div>
+  </section>
+  
+  <script type="text/javascript" src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+  <script src="./src/data.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
