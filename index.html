@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
-  rel="stylesheet" />
-  <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
   <link rel="stylesheet" href="style.css">
   <title>Transações Bancárias - Trybe</title>
 </head>
@@ -16,7 +14,7 @@
 
   <section class="filters">
     <select name="" id="customer-name">
-      <option value="">Selecione a pessoa ...</option>
+      <option value="" disabled selected>Selecione a pessoa ...</option>
     </select>
 
     <div class="months">
@@ -50,23 +48,30 @@
   <hr>
 
   <section class="dashboard">
-    <div class="table-content">
+    <div class="table-content" id="customerData">
       <div id="credit-card-info">
-
+        <img>
+        <p></p>
       </div>
-
-      <div class="transactions">  
-        <table id="transactions-table"></table>
+      <div class="transactions">
+        <table id="transactions-table">
+          <thead>
+            <th>Mês</th>
+            <th>Transação</th>
+            <th>Estabelecimento</th>
+            <th>Valor</th>
+          </thead>
+          <tbody></tbody>
+        </table>
         <p id="total-amount"></p>
       </div>
-
     </div>
 
     <div id="credit-chart" class="mx-auto w-3/5 overflow-hidden">
       <canvas id="bar-chart"></canvas>
     </div>
   </section>
-  
+
   <script type="text/javascript" src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script>
   <script src="./src/data.js"></script>
   <script src="./script.js"></script>
