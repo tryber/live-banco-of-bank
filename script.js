@@ -1,5 +1,5 @@
 const customerName = document.getElementById('customer-name');
-const creditCard = document.getElementById('credit-card-info');
+const creditCardElement = document.getElementById('credit-card-info');
 const table = document.getElementById('transactions-table');
 const months = document.querySelectorAll('input[name="month"]');
 const sectionFilters = document.querySelector('.filters');
@@ -17,19 +17,19 @@ const loadCustomerList = () => {
   });
 };
 
-const getCreditCardInfo = () => {
-  creditCard.innerHTML = '';
+const getCreditCardInfo = (credit_card_id) => data.credit_cards.find((card) => card.credit_card_id === credit_card_id);
+const getCustomer = (customer_id) => data.customers.find((customer) => customer.customer_id == customer_id);
 
-  const findCustomer = data.customers.find((customer) => customer.customer_id == customerName.value);
-  const findCreditCard = data.credit_cards.find((card) => card.credit_card_id === findCustomer.credit_card_id);
+const showCreditCardInfo = () => {
+  creditCardElement.innerHTML = '';
 
-  const cardImage = document.createElement('img');
-  cardImage.src = `${findCreditCard.image}`;
-  creditCard.appendChild(cardImage);
+  const customer = getCustomer(customerName.value);
+  const creditCard = getCreditCardInfo(customer.credit_card_id);
 
-  const description = document.createElement('p');
-  description.innerText = `Cartão ${findCreditCard.name} - No: ${findCustomer.credit_card_number}`;
-  creditCard.appendChild(description);
+  creditCardElement.insertAdjacentHTML(
+    'afterbegin',
+    `<img src="./images/cartao-nacional.png"><p>Cartão ${creditCard.name} - No: ${customer.credit_card_number}</p>`
+  );
 };
 
 const filterByMonth = () => {
@@ -130,7 +130,7 @@ window.onload = () => {
   
   customerName.addEventListener('change', () => {
     chartGenerator(getTotalByMonths());
-    getCreditCardInfo();
+    showCreditCardInfo();
   })
   
   sectionFilters.addEventListener('change', () => {
