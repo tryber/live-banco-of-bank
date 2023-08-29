@@ -7,6 +7,9 @@ const months = qsa('input[name="month"]');
 const sectionFilters = qs('.filters');
 const totalAmount = document.getElementById('total-amount');
 let chart = qs('canvas');
+const customerData = qs('#customerData');
+const creditCardImage = qs('#customerData img');
+const creditCardDescription = qs('#customerData p');
 
 const arrayAllMonths = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
@@ -27,15 +30,11 @@ const getTransactions = (customer_id, months) => data.transactions
   .filter((transaction) => transaction.customer_id == customer_id && months.includes(transaction.month));
 
 const showCreditCardInfo = (customer_id) => {
-  creditCardElement.innerHTML = '';
-
   const customer = getCustomer(customer_id);
   const creditCard = getCreditCardInfo(customer.credit_card_id);
 
-  creditCardElement.insertAdjacentHTML(
-    'afterbegin',
-    `<img src="./images/cartao-nacional.png"><p>Cartão ${creditCard.name} - No: ${customer.credit_card_number}</p>`
-  );
+  creditCardImage.src = creditCard.image;
+  creditCardDescription.innerText = `Cartão ${creditCard.name} - No: ${customer.credit_card_number}`;
 };
 
 const filterByMonth = () => [...qsa('input[name="month"]:checked')].map((month) => month.id);
@@ -54,7 +53,8 @@ const showTransactions = (transactions) => {
   );
 };
 
-const showCustomerInfo = () => {
+const loadTransactions = () => {
+  if (!customerName.value) return;
   const customer = getCustomer(customerName.value);
   const transactions = getTransactions(customer.customer_id, filterByMonth());
 
@@ -101,11 +101,12 @@ window.onload = () => {
   loadCustomerList(data.customers);
 
   customerName.addEventListener('change', () => {
+    customerData.style.display = 'block';
     chartGenerator(getTotalByMonths());
     showCreditCardInfo(customerName.value);
   })
 
   sectionFilters.addEventListener('change', () => {
-    showCustomerInfo();
+    loadTransactions();
   })
 };
