@@ -1,10 +1,12 @@
+const qsa = (q) => document.querySelectorAll(q);
+const qs = (q) => document.querySelector(q);
 const customerName = document.getElementById('customer-name');
 const creditCardElement = document.getElementById('credit-card-info');
 const table = document.getElementById('transactions-table');
-const months = document.querySelectorAll('input[name="month"]');
-const sectionFilters = document.querySelector('.filters');
+const months = qsa('input[name="month"]');
+const sectionFilters = qs('.filters');
 const totalAmount = document.getElementById('total-amount');
-let chart = document.querySelector('canvas');
+let chart = qs('canvas');
 
 const arrayAllMonths = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
@@ -32,21 +34,7 @@ const showCreditCardInfo = () => {
   );
 };
 
-const filterByMonth = () => {
-  const months = document.querySelectorAll('input[name="month"]:checked');
-  let monthsArray = [];
-  months.forEach((month) => monthsArray.push(month.id));
-
-  return monthsArray;
-};
-
-const setupMonthEvents = () => {
-  months.forEach((month) => {
-    month.addEventListener('change', () => {
-      filterByMonth();
-    });
-  });
-};
+const filterByMonth = () => [...qsa('input[name="month"]:checked')].map((month) => month.id);
 
 const getCustomerInfo = (arrayColumns, arrayKeys) => {
   table.innerHTML = '';
@@ -118,7 +106,7 @@ const chartGenerator = (data) => {
     chart.remove();
     chart = document.createElement('canvas');
     chart.id = 'bar-chart';
-    document.querySelector('#credit-chart').appendChild(chart);
+    qs('#credit-chart').appendChild(chart);
   }
 
   new te.Chart(document.getElementById('bar-chart'), dataBar);
@@ -126,13 +114,12 @@ const chartGenerator = (data) => {
 
 window.onload = () => {
   loadCustomerList();
-  setupMonthEvents();
-  
+
   customerName.addEventListener('change', () => {
     chartGenerator(getTotalByMonths());
     showCreditCardInfo();
   })
-  
+
   sectionFilters.addEventListener('change', () => {
     getCustomerInfo(['Mês', 'Transação', 'Estabelecimento', 'Valor'], ['month', 'transaction_id', 'company', 'amount']);
   })
