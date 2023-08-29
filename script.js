@@ -40,39 +40,39 @@ const getCustomerInfo = (arrayColumns, arrayKeys) => {
   table.innerHTML = '';
   totalAmount.innerHTML = '';
 
-  if (customerName.value !== '') {
-    arrayColumns.forEach((column) => {
-      const newTh = document.createElement('th');
-      newTh.innerText = column;
-      table.appendChild(newTh);
+  if (!customerName.value) return;
+
+  arrayColumns.forEach((column) => {
+    const newTh = document.createElement('th');
+    newTh.innerText = column;
+    table.appendChild(newTh);
+  })
+
+  const findCustomer = data.customers
+    .find((customer) => customer.customer_id == customerName.value);
+  const allTransactions = data.transactions
+    .filter((transactions) => transactions.customer_id === findCustomer.customer_id)
+    .filter(({ month }) => filterByMonth()
+    .includes(month));
+
+  let transactionsAmount = [];
+
+  allTransactions.forEach((transaction) => {
+    const newTr = document.createElement('tr');
+    table.appendChild(newTr);
+    transactionsAmount.push(transaction.amount);
+
+    arrayKeys.forEach((key) => {
+      const newTd = document.createElement('td');
+      newTd.innerText = transaction[key];
+      if (key === 'amount') newTd.innerText = `R$${transaction[key].toFixed(2)}`;
+      newTr.appendChild(newTd);
     })
 
-    const findCustomer = data.customers
-      .find((customer) => customer.customer_id == customerName.value);
-    const allTransactions = data.transactions
-      .filter((transactions) => transactions.customer_id === findCustomer.customer_id)
-      .filter(({ month }) => filterByMonth()
-      .includes(month));
+  })
 
-    let transactionsAmount = [];
-
-    allTransactions.forEach((transaction) => {
-      const newTr = document.createElement('tr');
-      table.appendChild(newTr);
-      transactionsAmount.push(transaction.amount);
-
-      arrayKeys.forEach((key) => {
-        const newTd = document.createElement('td');
-        newTd.innerText = transaction[key];
-        if (key === 'amount') newTd.innerText = `R$${transaction[key].toFixed(2)}`;
-        newTr.appendChild(newTd);
-      })
-
-    })
-
-    const total = transactionsAmount.reduce((acc, amount) => acc += amount, 0);
-    totalAmount.innerText = `TOTAL = R$${total.toFixed(2)}`;
-  }
+  const total = transactionsAmount.reduce((acc, amount) => acc += amount, 0);
+  totalAmount.innerText = `TOTAL = R$${total.toFixed(2)}`;
 };
 
 const getTotalByMonths = () => {
