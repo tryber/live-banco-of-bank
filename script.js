@@ -40,12 +40,12 @@ const getFilterMonths = () => {
   return monthsArray;
 };
 
-const verifyMonthsCheck = () => {
+const setupMonthEvents = () => {
   months.forEach((month) => {
     month.addEventListener('change', () => {
       getFilterMonths();
-    })
-  })
+    });
+  });
 };
 
 const getCustomerInfo = (arrayColumns, arrayKeys) => {
@@ -126,7 +126,7 @@ const chartGenerator = (data) => {
 
 window.onload = () => {
   loadCustomerList();
-  verifyMonthsCheck();
+  setupMonthEvents();
   
   customerName.addEventListener('change', () => {
     chartGenerator(getTotalByMonths());
