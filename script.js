@@ -100,7 +100,7 @@ const getTotalByMonths = () => {
   })
 };
 
-const chartGenerator = () => {
+const chartGenerator = (data) => {
   const dataBar = {
     type: 'bar',
     data: {
@@ -108,13 +108,13 @@ const chartGenerator = () => {
       datasets: [
         {
           label: 'Movimentação do Cartão',
-          data: getTotalByMonths(),
+          data,
         },
       ],
     },
   };
 
-  if (chart.classList.length !== 0) {
+  if (chart.classList.length) {
     chart.remove();
     chart = document.createElement('canvas');
     chart.id = 'bar-chart';
@@ -129,7 +129,7 @@ window.onload = () => {
   verifyMonthsCheck();
   
   customerName.addEventListener('change', () => {
-    chartGenerator();
+    chartGenerator(getTotalByMonths());
     getCreditCardInfo();
   })
   
