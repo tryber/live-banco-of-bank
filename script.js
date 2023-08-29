@@ -12,6 +12,7 @@ const createSelectName = () => {
   data.customers.forEach((customer) => {
     const newOption = document.createElement('option');
     newOption.innerText = customer.name;
+    newOption.value = customer.customer_id;
     customerName.appendChild(newOption);
   })
 };
@@ -19,7 +20,7 @@ const createSelectName = () => {
 const getCreditCardInfo = () => {
   creditCard.innerHTML = '';
 
-  const findCustomer = data.customers.find((customer) => customer.name === customerName.value);
+  const findCustomer = data.customers.find((customer) => customer.customer_id == customerName.value);
   const findCreditCard = data.credit_cards.find((card) => card.credit_card_id === findCustomer.credit_card_id);
 
   const cardImage = document.createElement('img');
@@ -59,7 +60,7 @@ const getCustomerInfo = (arrayColumns, arrayKeys) => {
     })
 
     const findCustomer = data.customers
-      .find((customer) => customer.name === customerName.value);
+      .find((customer) => customer.customer_id == customerName.value);
     const allTransactions = data.transactions
       .filter((transactions) => transactions.customer_id === findCustomer.customer_id)
       .filter(({ month }) => getFilterMonths()
@@ -87,7 +88,7 @@ const getCustomerInfo = (arrayColumns, arrayKeys) => {
 };
 
 const getTotalByMonths = () => {
-  const findCustomer = data.customers.find((customer) => customer.name === customerName.value);
+  const findCustomer = data.customers.find((customer) => customer.customer_id == customerName.value);
   return arrayAllMonths.map((month) => {
     const monthTransactions = data.transactions
       .filter((transaction) => transaction.customer_id === findCustomer.customer_id)
